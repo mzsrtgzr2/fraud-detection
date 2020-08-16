@@ -1,0 +1,57 @@
+**********************************************************************************
+Start All Servers
+**********************************************************************************
+
+#Start Cassandra Server
+cassandra -f
+
+#Connect to Cassandra Server through Cassandra console client
+cqlsh
+ 
+#Create Database and tables in Cassandra
+Copy the contents of creditcard.cql from FraudDetection Project and paste it on cqlsh console client
+#Path of creditcard.cql
+~/workspace/FraudDetection/blob/master/src/main/resources/cassandra/creditcard.cql
+
+#Start dashboard webserver for visualization
+  Open Fraud-alert-dashboard project and run FraudAlertDashboard.java
+
+#Access Dashboard Web UI  
+  http://your_vm_ip:8080/
+
+#Start Zookeeper Server
+  cd /usr/local/kafka
+  zookeeper-server-start etc/kafka/zookeeper.properties 
+
+#Start Kafka Server
+  cd /usr/local/kafka
+  kafka-server-start etc/kafka/server.properties
+
+#Create topic
+  kafka-topics --zookeeper localhost:2181 --create --topic creditcardTransaction  --replication-factor 1 --partitions 3  
+
+
+  
+**********************************************************************************
+Run the Project from Intellij
+**********************************************************************************
+  
+  
+  
+#Run the Spark Job to Import existing data into Cassandra.
+ Open FraudDetection project from Intellij and run IntialImportToCassandra.scala  
+ 
+#Run Spark Machine Learning Job on the existing data
+ Open FraudDetection project from Intellij and run FraudDetectionTraining.scala
+ 
+#Run Spark Streaming Job for Realtime Fraud Detection
+  Open FraudDetection project and run DstreamFraudDetection.scala  
+ 
+#Start Kafka Producer
+  Open CreditcardProducer Project and run TrasactionProducer.scala
+    Input to this Program is "src/main/resources/application-local.conf"
+
+
+	
+	
+	

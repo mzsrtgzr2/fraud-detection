@@ -1,0 +1,15 @@
+mkdir workspace
+
+cd workspace
+
+#FraudDetection
+git clone https://github.com/pramoddatamantra/FraudDetection
+
+
+#Creditcard Producer
+git clone https://github.com/pramoddatamantra/CreditcardProducer
+
+
+#Fraud Alert Dashboard
+git clone https://github.com/pramoddatamantra/Fraud-alert-dashboard
+
