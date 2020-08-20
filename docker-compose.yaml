@@ -1,19 +1,19 @@
 version: '2.2'
 
 services:
-  master:
+  spark-master:
     image: actionml/spark:latest
     command: master
     ports:
-      - 8080:8080
+      - 9080:8080
 
-  worker:
+  spark-worker:
     image: actionml/spark:latest
-    command: worker spark://master:7077
+    command: worker spark://spark-master:7077
     depends_on:
-      - master
+      - spark-master
     ports:
-      - 8081:8081
+      - 9081:8081
     environment:
       - SPARK_WORKER_MEMORY=1g
 
@@ -54,3 +54,37 @@ services:
       volumes:
         - ./FraudDetection/src/main/resources/cassandra/creditcard.cql:/schema.cql
       command: /bin/bash -c "echo loading cassandra keyspace && cqlsh cassandra -f /schema.cql"
+
+  postgres:
+    image: postgres:9.6
+    environment:
+        - POSTGRES_USER=airflow
+        - POSTGRES_PASSWORD=airflow
+        - POSTGRES_DB=airflow
+
+  airflow:
+      image: puckel/docker-airflow:1.10.9
+      restart: always
+      mem_limit: 8000m
+      depends_on:
+          - postgres
+      env_file:
+          - .env
+      environment:
+          - LOAD_EX=n
+          - EXECUTOR=Local
+      volumes:
+          - ./dags:/usr/local/airflow/dags
+          - ./test:/usr/local/airflow/test
+          - ./plugins:/usr/local/airflow/plugins
+          # Uncomment to include custom plugins
+          - ./requirements.txt:/requirements.txt
+          - ~/.aws:/usr/local/airflow/.aws
+      ports:
+          - "9090:8080"
+      command: webserver
+      healthcheck:
+          test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+          interval: 30s
+          timeout: 30s
+          retries: 3

@@ -1,2 +1,6 @@
 FraudDetection/
 out/
+__pycache__
+fraud-code-proj/target
+fraud-code-proj/.idea
+fraud-code-proj/project
