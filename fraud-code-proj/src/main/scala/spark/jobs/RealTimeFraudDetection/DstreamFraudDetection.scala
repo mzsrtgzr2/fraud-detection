@@ -153,7 +153,8 @@ object DstreamFraudDetection extends SparkJob("Fraud Detection using Dstream"){
               val isFraud = record.getAs[Double]("is_fraud")
               if (isFraud == 1.0) {
                 // Bind and execute prepared statement for Fraud Table
-                session.execute(CreditcardTransactionRepository.cqlTransactionBind(preparedStatementFraud, record))
+                session.execute(
+                  CreditcardTransactionRepository.cqlTransactionBind(preparedStatementFraud, record))
               }
               else if(isFraud == 0.0) {
                 // Bind and execute prepared statement for NonFraud Table

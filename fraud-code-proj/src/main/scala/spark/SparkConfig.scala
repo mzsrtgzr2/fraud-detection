@@ -1,14 +1,9 @@
 package com.datamantra.spark
 
-import java.net.InetAddress
-
 import com.datamantra.cassandra.CassandraConfig
 import com.datamantra.config.Config
-import com.datamantra.kafka.KafkaConfig
-import com.typesafe.config.ConfigFactory
 import org.apache.log4j.Logger
 import org.apache.spark.SparkConf
-import org.apache.spark.streaming.Duration
 
 /**
   * Created by kafka on 9/5/18.
@@ -41,8 +36,8 @@ object SparkConfig {
     }
 
     def defaultSetting() = {
-      sparkConf.setMaster("local[*]")
-        .set("spark.ui.port", "9080")
+      sparkConf.setMaster("spark://127.0.0.1:7077")
+//        .set("spark.ui.port", "9080")
         .set("spark.cassandra.connection.host", CassandraConfig.cassandrHost)
         .set("spark.sql.streaming.checkpointLocation", "/tmp/checkpoint")
       shutdownMarker = "/tmp/shutdownmarker"
