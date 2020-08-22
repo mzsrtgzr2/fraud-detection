@@ -153,12 +153,13 @@ object DstreamFraudDetection extends SparkJob("Fraud Detection using Dstream"){
               val isFraud = record.getAs[Double]("is_fraud")
               if (isFraud == 1.0) {
                 // Bind and execute prepared statement for Fraud Table
-                session.execute(
-                  CreditcardTransactionRepository.cqlTransactionBind(preparedStatementFraud, record))
+                val q: String = CreditcardTransactionRepository.cqlTransactionBind(preparedStatementFraud, record).toString;
+                session.execute(q)
               }
               else if(isFraud == 0.0) {
                 // Bind and execute prepared statement for NonFraud Table
-                session.execute(CreditcardTransactionRepository.cqlTransactionBind(preparedStatementNonFraud, record))
+                session.execute(
+                  CreditcardTransactionRepository.cqlTransactionBind(preparedStatementNonFraud, record).toString)
               }
               //Get max offset in the current match
               val kafkaPartition = record.getAs[Int]("partition")
@@ -175,7 +176,8 @@ object DstreamFraudDetection extends SparkJob("Fraud Detection using Dstream"){
             })
             partitionOffset.foreach(t => {
               // Bind and execute prepared statement for Offset Table
-              session.execute(KafkaOffsetRepository.cqlOffsetBind(preparedStatementOffset, t))
+              session.execute(
+                KafkaOffsetRepository.cqlOffsetBind(preparedStatementOffset, t).toString)
 
             })
 

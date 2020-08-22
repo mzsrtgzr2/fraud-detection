@@ -1,7 +1,5 @@
 package com.datamantra.cassandra.dao
 
-import java.sql.Timestamp
-
 import com.datamantra.creditcard.Enums
 import com.datastax.driver.core.PreparedStatement
 import org.apache.log4j.Logger
@@ -25,8 +23,8 @@ object KafkaOffsetRepository {
         )"""
   }
 
-  def cqlOffsetBind(prepared: PreparedStatement, record:(Int, Long)) ={
-    val bound = prepared.bind()
+  def cqlOffsetBind(prepared: Any, record:(Int, Long)) ={
+    val bound = (prepared.asInstanceOf[PreparedStatement]).bind()
     bound.setInt(Enums.TransactionCassandra.kafka_partition,record._1)
     bound.setLong(Enums.TransactionCassandra.kafka_offset, record._2)
     bound

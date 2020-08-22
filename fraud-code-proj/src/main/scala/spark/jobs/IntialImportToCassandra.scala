@@ -1,12 +1,13 @@
 package com.datamantra.spark.jobs
 
-import com.datamantra.cassandra.{CassandraConfig, CassandraDriver}
+import com.datamantra.cassandra.CassandraConfig
 import com.datamantra.config.Config
 import com.datamantra.creditcard.Schema
 import com.datamantra.spark.{DataReader, SparkConfig}
 import com.datamantra.utils.Utils
+import org.apache.spark.sql.Row
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types.{TimestampType, IntegerType}
+import org.apache.spark.sql.types.{IntegerType, TimestampType}
 
 /**
  * Created by kafka on 24/5/18.
@@ -19,6 +20,16 @@ object IntialImportToCassandra extends SparkJob("Initial Import to Cassandra"){
 
     import sparkSession.implicits._
 
+    val data = Seq(
+      Row("a1", "b1"),
+      Row("a2", "b2"),
+    )
+
+//    val sc = sparkSession.sparkContext
+
+//    val testDF = sc.parallelize(data)
+//    testDF.saveTo
+
     val transactionDF = DataReader.read(SparkConfig.transactionDatasouce, Schema.fruadCheckedTransactionSchema)
       .withColumn("trans_date", split($"trans_date", "T").getItem(0))
       .withColumn("trans_time", concat_ws(" ", $"trans_date", $"trans_time"))
@@ -27,6 +38,8 @@ object IntialImportToCassandra extends SparkJob("Initial Import to Cassandra"){
     val customerDF = DataReader.read(SparkConfig.customerDatasource, Schema.customerSchema)
 
     customerDF.show()
+
+
 
 
     /* Save Customer data to cassandra */

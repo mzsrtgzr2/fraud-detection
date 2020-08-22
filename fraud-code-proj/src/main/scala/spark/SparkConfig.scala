@@ -36,7 +36,8 @@ object SparkConfig {
     }
 
     def defaultSetting() = {
-      sparkConf.setMaster("spark://127.0.0.1:7077")
+//      sparkConf.setMaster("spark://127.0.0.1:7077")
+      sparkConf.setMaster("local[*]")
 //        .set("spark.ui.port", "9080")
         .set("spark.cassandra.connection.host", CassandraConfig.cassandrHost)
         .set("spark.sql.streaming.checkpointLocation", "/tmp/checkpoint")

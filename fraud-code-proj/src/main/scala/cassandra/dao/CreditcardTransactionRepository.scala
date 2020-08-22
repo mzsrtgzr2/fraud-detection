@@ -34,8 +34,8 @@ object CreditcardTransactionRepository {
         )"""
   }
 
-  def cqlTransactionBind(prepared: PreparedStatement, record:Row) ={
-    val bound = prepared.bind()
+  def cqlTransactionBind(prepared: Any, record:Row) ={
+    val bound = (prepared.asInstanceOf[PreparedStatement]).bind()
     bound.setString(Enums.TransactionCassandra.cc_num, record.getAs[String](Enums.TransactionCassandra.cc_num))
     bound.setTimestamp(Enums.TransactionCassandra.trans_time, record.getAs[Timestamp](Enums.TransactionCassandra.trans_time))
     bound.setString(Enums.TransactionCassandra.trans_num, record.getAs[String](Enums.TransactionCassandra.trans_num))

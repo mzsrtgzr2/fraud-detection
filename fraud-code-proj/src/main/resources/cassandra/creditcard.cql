@@ -5,6 +5,11 @@ WITH replication = {
 
 USE creditcard;
 
+CREATE TABLE IF NOT EXISTS test (
+  a text,
+  b text
+);
+
 CREATE TABLE IF NOT EXISTS fraud_transaction (
   cc_num text,
   trans_time timestamp,

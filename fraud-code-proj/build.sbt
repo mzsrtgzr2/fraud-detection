@@ -17,8 +17,7 @@ libraryDependencies ++= Seq(
   "org.apache.logging.log4j" % "log4j-core" % "2.11.0" % Runtime,
   "com.typesafe" % "config" % "1.3.3",
   "com.datastax.cassandra" % "cassandra-driver-core" % "3.10.1",
-  "com.datastax.cassandra" % "cassandra-driver-mapping" % "3.10.1",
-  "com.datastax.spark" %% "spark-cassandra-connector" % "2.4.3",
+  "com.datastax.spark" %% "spark-cassandra-connector" % "3.0-alpha",
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.10.1",
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.5",
   "com.fasterxml.jackson.core" % "jackson-core" % "2.6.7"

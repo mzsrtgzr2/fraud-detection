@@ -7,3 +7,6 @@ Fraud detection system with Spark, Kafka and Cassandra
 
 
 
+https://github.com/big-data-europe/docker-hadoop-spark-workbench
+
+https://github.com/vkorukanti/spark-docker-compose
